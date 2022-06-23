@@ -51,7 +51,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.loginField = QtWidgets.QLineEdit(placeholderText='login')
         self.passwordField = QtWidgets.QLineEdit(placeholderText='password')
         self.passwordField.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.serverField = QtWidgets.QLineEdit(placeholderText='Server Name')
+        self.serverField = QtWidgets.QComboBox()
+        self.serverField.addItems(['digiclear', 'remoteclear-lan', 'remoteclear'])
         self.FileManager = FileManager()
         self.FileManager.itemChanged.connect(self.FileManager.onClick)
         self._make_UI()
@@ -80,15 +81,12 @@ class MainWindow(QtWidgets.QMainWindow):
     def login(self):
         username = self.loginField.text()
         password = self.passwordField.text()
-        if self.serverField.text() in ['digiclear', 'remoteclear', 'remoteclear-lan']:
-            digiclear_servername = self.serverField.text()
-            if digiclear_servername == 'remoteclear-lan':
-                check_certificate = False
-            else:
-                check_certificate = True
+        digiclear_servername = str(self.serverField.currentText())
+        if digiclear_servername == 'remoteclear-lan':
+            check_certificate = False
         else:
-            print('Digiclear server name unknown')
-            return False
+            check_certificate = True
+
         self.session = DigiclearConnection(digiclear_servername)
         success = self.session.login(username, password, check_certificate) 
         return success
