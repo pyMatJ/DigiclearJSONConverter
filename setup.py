@@ -8,5 +8,5 @@ setup(
    author='Mathieu Jeannin, Paul Goulain',
    packages=find_packages(),
    install_requires=['PyQt5', 'reportlab', 'requests', 'lxml'],
-   entry_points={'console_scripts': ['DigiclearJSONConverter = scripts.GUIConverter:main']},
+   entry_points={'console_scripts': ['DigiclearJSONConverter = DigiclearJSONConverter.gui.GUIConverter:main']},
 )

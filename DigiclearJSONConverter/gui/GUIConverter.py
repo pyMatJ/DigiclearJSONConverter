@@ -13,7 +13,6 @@ from DigiclearJSONConverter.digiclearconnection import DigiclearConnection
 from DigiclearJSONConverter.operationhistory import OperationHistory
 from DigiclearJSONConverter.pdfreport import PDFReport
 
-digiclear_servername = 'remoteclear-lan' ## remoteclear or remoteclear-lan or digiclear
 
 def main():
     if not QtWidgets.QApplication.instance():
