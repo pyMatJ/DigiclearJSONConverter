@@ -159,7 +159,9 @@ class FileManager(QtWidgets.QTreeWidget):
         
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls:
-            event.accept()
+            for url in event.mimeData().urls():
+                if url.isLocalFile() and Path(url.toLocalFile()).suffix=='.json':
+                    event.accept()
         else:
             event.ignore()
 
