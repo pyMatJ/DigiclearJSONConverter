@@ -1,4 +1,4 @@
-DigiclearJSONConverter.pdfreport.PDFReport
+﻿DigiclearJSONConverter.pdfreport.PDFReport
 ==========================================
 
 .. currentmodule:: DigiclearJSONConverter.pdfreport
@@ -17,6 +17,8 @@ DigiclearJSONConverter.pdfreport.PDFReport
    .. autosummary::
    
       ~PDFReport.BuildDoc
+      ~PDFReport.HTMLCommentFormatting
+      ~PDFReport.MakeDescriptionFlowable
       ~PDFReport.MakeHeadersFlowables
       ~PDFReport.MakeOperationFlowables
       ~PDFReport.MakeParentsFloables

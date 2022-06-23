@@ -52,6 +52,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.loginField = QtWidgets.QLineEdit(placeholderText='login')
         self.passwordField = QtWidgets.QLineEdit(placeholderText='password')
         self.passwordField.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.serverField = QtWidgets.QLineEdit(placeholderText='Server Name')
         self.FileManager = FileManager()
         self.FileManager.itemChanged.connect(self.FileManager.onClick)
         self._make_UI()
@@ -80,8 +81,17 @@ class MainWindow(QtWidgets.QMainWindow):
     def login(self):
         username = self.loginField.text()
         password = self.passwordField.text()
+        if self.serverField.text() in ['digiclear', 'remoteclear', 'remoteclear-lan']:
+            digiclear_servername = self.serverField.text()
+            if digiclear_servername == 'remoteclear-lan':
+                check_certificate = False
+            else:
+                check_certificate = True
+        else:
+            print('Digiclear server name unknown')
+            return False
         self.session = DigiclearConnection(digiclear_servername)
-        success = self.session.login(username, password, check_certificate=False) ## False for remoteclear-lan 
+        success = self.session.login(username, password, check_certificate) 
         return success
         
     def logout(self):
@@ -110,6 +120,7 @@ class MainWindow(QtWidgets.QMainWindow):
         rightPanelLayout.addWidget(self.quitButton)  # quit button
         rightPanelLayout.addWidget(self.loginField) # login field
         rightPanelLayout.addWidget(self.passwordField) # login field
+        rightPanelLayout.addWidget(self.serverField) # login field
         
         rightPanel.setLayout(rightPanelLayout)
         vSplit.addWidget(leftPanel)

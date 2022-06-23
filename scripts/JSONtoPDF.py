@@ -12,20 +12,20 @@ this_dir = Path(__file__).parent ## current directory where the file is
 
 username = 'prenom.nom' ### your digiclear username
 password = 'password' ### your digiclear password
-digiclear_servername = 'remoteclear-lan' ## digiclear, remoteclear or remoteclear-lan
+digiclear_servername = 'digiclear' ## digiclear, remoteclear or remoteclear-lan
 
 
 ####### to run in the current directory
-sourcedirectory = this_dir
+# sourcedirectory = this_dir
 ####### to get json files from another directory
-sourcedirectory = Path(r'directory_holding_json_files')
+sourcedirectory = Path(r'directory_with_jsonfiles')
 
 ####### list json files matching the pattern
 jsonfilelist = list(sourcedirectory.glob('*_history_*.json')) 
 
 ### connect to Digiclear
 s = DigiclearConnection(digiclear_servername)
-test = s.login(username, password, check_certificate=False) ## False for remoteclear-lan 
+test = s.login(username, password, check_certificate=True) ## False for remoteclear-lan 
 if not test:
     print('\n login failed \n')
 

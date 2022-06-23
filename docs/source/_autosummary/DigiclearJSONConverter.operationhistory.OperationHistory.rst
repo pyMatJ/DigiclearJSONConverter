@@ -1,4 +1,4 @@
-DigiclearJSONConverter.operationhistory.OperationHistory
+﻿DigiclearJSONConverter.operationhistory.OperationHistory
 ========================================================
 
 .. currentmodule:: DigiclearJSONConverter.operationhistory
@@ -19,6 +19,7 @@ DigiclearJSONConverter.operationhistory.OperationHistory
       ~OperationHistory.GetMachineName
       ~OperationHistory.GetOperationsData
       ~OperationHistory.GetProjectName
+      ~OperationHistory.GetSampleDescription
       ~OperationHistory.GetSampleName
       ~OperationHistory.GetSampleParent
       ~OperationHistory.GetSampleParents
