@@ -172,7 +172,7 @@ class OperationHistory():
         ### not possible to find a single user through api so load them all up and use later
         all_users = json.loads(self.dcc.s.get(self.dcc.base_api_url+'getUsers').text)
         
-        f = open(self.jsonfilepath)
+        f = open(self.jsonfilepath, encoding='utf-8')
         
         op_list_loc = json.load(f)['operations'] #### local copy of list of all operations
         
