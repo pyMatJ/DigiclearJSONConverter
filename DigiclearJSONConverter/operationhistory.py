@@ -30,9 +30,10 @@ class OperationHistory():
         self.jsonfilepath = jsonfilepath
         self.dcc = digiclearconnection
 
-        titleParams = Path(jsonfilepath).name.split('.json')[0].split('_')
+        titleParams = Path(jsonfilepath).name.split('.json')[0].split('_history_')
         titleText = f'{titleParams[0]} history'
-        subtitleText = f'Downloaded {titleParams[2]} at {titleParams[3]}'
+        dldate, dltime = titleParams[1].split('_')
+        subtitleText = f'Downloaded {dldate} at {dltime}'
         self.report_dict = {'Title': titleText,
                             'Subtitle': subtitleText}
         
@@ -42,6 +43,7 @@ class OperationHistory():
         self.sampleId = self.op_list[0]['operation-samples'][0]['sampleId']
         self.GetSampleParents()
         self.report_dict['Parents'] = self.ParentList
+        self.report_dict['Description'] = self.GetSampleDescription()
         
     def GetSampleParent(self, sampleId):
         """
@@ -141,6 +143,19 @@ class OperationHistory():
         machineName = machine_info['name']
         return machineName
 
+    def GetSampleDescription(self):
+        """
+        API request to get the sample description.
+
+        Returns
+        -------
+        sampleDesc : str
+            Sample description field.
+
+        """
+        sample_info = json.loads(self.dcc.s.get(self.dcc.base_api_url+f'getSample?id={self.sampleId}').text)
+        sampleDesc = sample_info['description']
+        return sampleDesc
 
     def GetOperationsData(self):
         """

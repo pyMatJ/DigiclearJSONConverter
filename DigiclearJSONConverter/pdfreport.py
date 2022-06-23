@@ -50,6 +50,8 @@ class PDFReport():
 
         self.MakeHeadersFlowables()
         
+        self.MakeDescriptionFlowable()
+        
         self.MakeParentsFloables()
         
         self.MakeOperationFlowables()
@@ -62,16 +64,30 @@ class PDFReport():
         """
         Format and adds the headers to the list of flowables. 
         """
+        ## paragraph styles
         psHeaderText = ParagraphStyle('Hed0', fontSize=20, alignment=TA_CENTER, borderWidth=3)
         psSubHeaderText = ParagraphStyle('Hed1', fontSize=18, alignment=TA_CENTER, borderWidth=3)
         
-        paragraphReportHeader = Paragraph(self.titleText, psHeaderText)
-        paragraphReportSubHeader = Paragraph(self.subtitleText, psSubHeaderText)
+        ## paragraphs
+        pgHeader = Paragraph(self.titleText, psHeaderText)
+        pgSubHeader = Paragraph(self.subtitleText, psSubHeaderText)
         
-        self.flowables.append(paragraphReportHeader)
+        ## append to flowable list
+        self.flowables.append(pgHeader)
         self.flowables.append(Spacer(1,psHeaderText.fontSize))
-        self.flowables.append(paragraphReportSubHeader)
+        self.flowables.append(pgSubHeader)
         self.flowables.append(Spacer(1,psSubHeaderText.fontSize))
+    
+    def MakeDescriptionFlowable(self):
+        if len(self.report_dict['Description'])>0:
+            ## paragraph style
+            psDescriptionText = ParagraphStyle('Hed2', fontSize=12, alignment=TA_LEFT, borderWidth=3)
+            ## paragraph
+            pgDescription = Paragraph(self.report_dict['Description'], psDescriptionText)
+            
+            ## append to flowable list
+            self.flowables.append(pgDescription)
+            self.flowables.append(Spacer(1,psDescriptionText.fontSize))
     
     def MakeParentsFloables(self):
         if len(self.report_dict['Parents'])>0:
