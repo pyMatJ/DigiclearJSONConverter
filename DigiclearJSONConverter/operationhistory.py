@@ -217,10 +217,10 @@ class OperationHistory():
         for op in self.op_list:
             op_dt = datetime.strptime(op['operationDate'], '%Y-%m-%d %H:%M:%S')
             op_dates.append(op_dt)
-
+            
         ### from https://stackoverflow.com/questions/6618515/sorting-list-based-on-values-from-another-list
         ### sort the operations by operation date
-        sorted_operations = [op for _, op in sorted(zip(op_dates, self.op_list))]
+        sorted_operations = [op for _, op in sorted(zip(op_dates, self.op_list), key=lambda l: l[0])]
         self.report_dict['Operations'] = sorted_operations
         
 

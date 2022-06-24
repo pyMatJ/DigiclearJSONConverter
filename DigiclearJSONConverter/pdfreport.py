@@ -3,7 +3,7 @@ Generate a pdf report from a dictionnary
 """
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
-from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.colors import Color
 from lxml.html import document_fromstring
@@ -154,7 +154,7 @@ class PDFReport():
         Each operation consists of two tables, one for the machine settings, the other one 
         for the samples settings. 
         """
-        
+        colWidths = (self.doc.width/3, self.doc.width*2/3)
         ### loop through all operations
         for op in self.report_dict['Operations']:
             
@@ -170,10 +170,10 @@ class PDFReport():
             
             opHeaderStyle = TableStyle([
                 ('BACKGROUND', (0,0), (-1,0), Color(85/255, 153/255, 255/255)), ## colored header
-                ('ALIGN', (0,0), (0,0), 'LEFT'),
-                ('ALIGN', (1,0), (-1,-1), 'RIGHT'),
+                ('ALIGN', (0,0), (0,0), 'LEFT'), ## top left cell
+                ('ALIGN', (1,0), (1,0), 'RIGHT'), ## top right cell
                 ])
-            opHeadTable = Table(data, colWidths='*', spaceBefore=10)
+            opHeadTable = Table(data, colWidths=colWidths, spaceBefore=10)
             opHeadTable.setStyle(opHeaderStyle)
             self.flowables.append(opHeadTable)
         
@@ -181,16 +181,18 @@ class PDFReport():
             operationData = []
             for param in op:
                 if param not in self.discardFields:
-                    if 'Comment' in param and len(op[param])>1: 
+                    if 'comment' in param.lower() and len(op[param])>1: 
                         ## 'Comment' in field name indicates that there might be html text to cleanup
                         paramText = self.HTMLCommentFormatting(op[param]) ## correct formatting
+                        paramText = Paragraph(paramText)
                     else:
                         paramText = op[param]
                     operationData.append([param, paramText])
-            operationTable = Table(operationData, colWidths='*')
+            
             opTableStyle = TableStyle([
                 ('VALIGN', (0,0), (-1,-1), 'TOP')
                 ])
+            operationTable = Table(operationData, colWidths=colWidths)
             operationTable.setStyle(opTableStyle)
             self.flowables.append(operationTable)
             
@@ -201,18 +203,19 @@ class PDFReport():
             op_sample = op['operation-samples'][0]
             for param in op_sample:
                 if param not in self.discardFields:
-                    if 'Comment' in param and len(op_sample[param])>1:
+                    if 'comment' in param.lower() and len(op_sample[param])>1:
                         ## 'Comment' in field name indicates that there might be html text to cleanup
                         paramText = self.HTMLCommentFormatting(op_sample[param]) ## correct formatting
+                        paramText = Paragraph(paramText)
                     else:
                         paramText = op_sample[param]
                     sampleData.append([param, paramText])
-            sampleTable = Table(sampleData, colWidths='*', spaceBefore=10)
-        
+            
             tblstyle = TableStyle([
                 ('LINEBELOW', (0,0), (-1,0), 1, Color(0, 0, 0)),
                 ('VALIGN', (0,0), (-1,-1), 'TOP')
                 ])
+            sampleTable = Table(sampleData, colWidths=colWidths, spaceBefore=10)
             sampleTable.setStyle(tblstyle)
             self.flowables.append(sampleTable)
             

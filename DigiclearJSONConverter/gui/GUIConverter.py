@@ -83,7 +83,7 @@ class MainWindow(QtWidgets.QMainWindow):
         password = self.passwordField.text()
         digiclear_servername = str(self.serverField.currentText())
         if digiclear_servername == 'remoteclear-lan':
-            check_certificate = False
+            check_certificate = False ### remoteclear certificate does not match remoteclear-lan so we bypass checking it
         else:
             check_certificate = True
 

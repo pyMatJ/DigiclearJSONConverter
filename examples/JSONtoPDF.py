@@ -25,7 +25,11 @@ jsonfilelist = list(sourcedirectory.glob('*_history_*.json'))
 
 ### connect to Digiclear
 s = DigiclearConnection(digiclear_servername)
-test = s.login(username, password, check_certificate=True) ## False for remoteclear-lan 
+if digiclear_servername in ['digiclear', 'remoteclear']:
+    check_certificate = True
+elif digiclear_servername == 'remoteclear-lan':
+    check_certificate = False
+test = s.login(username, password, check_certificate) ## False for remoteclear-lan 
 if not test:
     print('\n login failed \n')
 
