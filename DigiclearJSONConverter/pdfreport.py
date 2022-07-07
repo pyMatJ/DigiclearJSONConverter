@@ -88,7 +88,7 @@ class PDFReport():
         None.
 
         """
-        if len(self.report_dict['Description'])>0:
+        if self.report_dict['Description'] is not None and len(self.report_dict['Description'])>0:
             ## paragraph style
             psDescriptionText = ParagraphStyle('Hed2', fontSize=12, alignment=TA_LEFT, borderWidth=3)
             ## paragraph
