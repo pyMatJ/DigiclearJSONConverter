@@ -16,7 +16,6 @@ from DigiclearJSONConverter.pdfreport import PDFReport
 
 def main():
     if not QtWidgets.QApplication.instance():
-        print('No instance found, creating a new one')
         app = QtWidgets.QApplication(sys.argv)
     else:
         app = QtWidgets.QApplication.instance()
@@ -33,10 +32,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         """
         Creates the main window holding everything. 
-        The data is contained inside a :py:class:`DataManager` 
-        object with the actual data, and references to the curve in the 
-        plot window or visualization in the data explorer.
-
+        
         Returns
         -------
         None.
@@ -52,11 +48,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.passwordField = QtWidgets.QLineEdit(placeholderText='password')
         self.passwordField.setEchoMode(QtWidgets.QLineEdit.Password)
         self.serverField = QtWidgets.QComboBox()
-        self.serverField.addItems(['digiclear', 'remoteclear-lan', 'remoteclear'])
+        # self.serverField.addItems(['digiclear', 'remoteclear-lan', 'remoteclear']) ## test servers
+        self.serverField.addItems(['digiclear'])
         self.FileManager = FileManager()
         self.FileManager.itemChanged.connect(self.FileManager.onClick)
-        self._make_UI()
         
+        self._make_UI()
     
     def quitButtonCallback(self):
         QtWidgets.QApplication.quit()
@@ -128,11 +125,11 @@ class MainWindow(QtWidgets.QMainWindow):
         vSplit.setSizes((int(width*0.8), int(width*0.2)))
         w = QtWidgets.QWidget()
         w.setLayout(layout)
+        
         self.setCentralWidget(w)
         self.resize(width, height)
         self.show()
-
-
+        
         
 class FileManager(QtWidgets.QTreeWidget):
     
@@ -155,6 +152,13 @@ class FileManager(QtWidgets.QTreeWidget):
         self.header().setStretchLastSection(False)
         self.header().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         
+        self.indicator = QtWidgets.QLabel('Drop JSON files here', parent = self)
+        self.indicator.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents, True)
+        indicatorfont = QtGui.QFont('Time',20)
+        self.indicator.setFont(indicatorfont)
+        self.indicator.setStyleSheet('color : gray')
+        self.indicator.show()
+
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls:
             for url in event.mimeData().urls():
@@ -178,6 +182,7 @@ class FileManager(QtWidgets.QTreeWidget):
                 if url.isLocalFile():
                     filepath = Path(url.toLocalFile()).__str__()
                     self.addFile(filepath)
+                    self.indicator.hide()
             
     def addFile(self, path):
         fileItem = FileItem(path)
@@ -196,18 +201,26 @@ class FileManager(QtWidgets.QTreeWidget):
             elif item.checkState(column)==2:
                 item.exportDocx = True
     
+    def resizeEvent(self, e):
+        super().resizeEvent(e)
+        self.indicator.move(
+            self.geometry().center() - QtCore.QPoint(int(self.indicator.width()/2),
+                                                      int(self.indicator.height()/2))
+            )
+    
+    
 class FileItem(QtWidgets.QTreeWidgetItem):
     
     def __init__(self, filepath):
         super().__init__()
         self.filepath = filepath ## data label in the legend
         self.exportPDF = True
-        self.exportDocx = True
+        self.exportDocx = False
         
         self.setFlags(self.flags() | QtCore.Qt.ItemIsUserCheckable) # make checkable
         
         self.setCheckState(1, QtCore.Qt.Checked) # set the checkbox state
-        self.setCheckState(2, QtCore.Qt.Checked) # set the checkbox state
+        self.setCheckState(2, QtCore.Qt.Unchecked) # set the checkbox state
         
         
         self.setText(0, filepath) ## show filepath
