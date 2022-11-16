@@ -9,6 +9,10 @@ Welcome to DigiclearJSONConverter's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   
+   Installation
+   Basic Usage
+
 
 API Reference
 --------------
@@ -17,7 +21,7 @@ API Reference
    :toctree: _autosummary
    :template: custom-module-template.rst
    :recursive:
-
+   
    DigiclearJSONConverter
 
 Indices and tables

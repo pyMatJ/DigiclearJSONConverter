@@ -29,6 +29,7 @@
    :recursive:
 
    DigiclearJSONConverter.digiclearconnection
+   DigiclearJSONConverter.gui
    DigiclearJSONConverter.operationhistory
    DigiclearJSONConverter.pdfreport
 
