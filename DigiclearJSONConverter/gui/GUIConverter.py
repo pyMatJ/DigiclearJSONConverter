@@ -15,6 +15,14 @@ from DigiclearJSONConverter.pdfreport import PDFReport
 
 
 def main():
+    """
+    Run the GUI application
+
+    Returns
+    -------
+    None.
+
+    """
     if not QtWidgets.QApplication.instance():
         app = QtWidgets.QApplication(sys.argv)
     else:
@@ -134,6 +142,14 @@ class MainWindow(QtWidgets.QMainWindow):
 class FileManager(QtWidgets.QTreeWidget):
     
     def __init__(self):
+        """
+        QTreeWidget handling the display of all files
+
+        Returns
+        -------
+        None.
+
+        """
         super().__init__()
 
         self.fileItems = []
@@ -152,6 +168,7 @@ class FileManager(QtWidgets.QTreeWidget):
         self.header().setStretchLastSection(False)
         self.header().setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
         
+        ### Indicator text widget that disappears after first dropped file
         self.indicator = QtWidgets.QLabel('Drop JSON files here', parent = self)
         self.indicator.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents, True)
         indicatorfont = QtGui.QFont('Time',20)
@@ -160,42 +177,42 @@ class FileManager(QtWidgets.QTreeWidget):
         self.indicator.show()
 
     def dragEnterEvent(self, event):
-        if event.mimeData().hasUrls:
+        if event.mimeData().hasUrls: ## check that the items are a file
             for url in event.mimeData().urls():
-                if url.isLocalFile() and Path(url.toLocalFile()).suffix=='.json':
+                if url.isLocalFile() and Path(url.toLocalFile()).suffix=='.json': ## only accept json files
                     event.accept()
         else:
             event.ignore()
 
     def dragMoveEvent(self, event):
-        if event.mimeData().hasUrls():
+        if event.mimeData().hasUrls(): ## check that the items are a file
             event.setDropAction(QtCore.Qt.CopyAction)
             event.accept()
         else:
             event.ignore()
             
     def dropEvent(self, event):
-       if event.mimeData().hasUrls():
+       if event.mimeData().hasUrls(): ## check that the items are a file
             event.setDropAction(QtCore.Qt.CopyAction)
             event.accept()
             for url in event.mimeData().urls():
-                if url.isLocalFile():
+                if url.isLocalFile() and Path(url.toLocalFile()).suffix=='.json': ## only accept json files
                     filepath = Path(url.toLocalFile()).__str__()
-                    self.addFile(filepath)
-                    self.indicator.hide()
+                    self.addFile(filepath) ## add the file to the list
+                    self.indicator.hide() ## indicator no longer necessary
             
     def addFile(self, path):
         fileItem = FileItem(path)
-        self.addTopLevelItem(fileItem)
-        self.fileItems.append(fileItem)
+        self.addTopLevelItem(fileItem) ## add the item to the QTreeWidget
+        self.fileItems.append(fileItem) ## keep a reference in the list
         
     def onClick(self, item, column):
-        if column==1:
+        if column==1: ## export PDF selector
             if item.checkState(column)==0:
                 item.exportPDF = False
             elif item.checkState(column)==2:
                 item.exportPDF = True
-        elif column==2:
+        elif column==2: ## export docx selector
             if item.checkState(column)==0:
                 item.exportDocx = False
             elif item.checkState(column)==2:
@@ -203,6 +220,7 @@ class FileManager(QtWidgets.QTreeWidget):
     
     def resizeEvent(self, e):
         super().resizeEvent(e)
+        ### need to recalculate the position of the indicator child widget
         self.indicator.move(
             self.geometry().center() - QtCore.QPoint(int(self.indicator.width()/2),
                                                       int(self.indicator.height()/2))
@@ -212,6 +230,19 @@ class FileManager(QtWidgets.QTreeWidget):
 class FileItem(QtWidgets.QTreeWidgetItem):
     
     def __init__(self, filepath):
+        """
+        Item representing a file
+
+        Parameters
+        ----------
+        filepath : pathlib.Path
+            Path to a json file. 
+
+        Returns
+        -------
+        None.
+
+        """
         super().__init__()
         self.filepath = filepath ## data label in the legend
         self.exportPDF = True
