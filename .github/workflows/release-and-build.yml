@@ -1,0 +1,43 @@
+name: Release and build executables
+
+on:
+    push:
+        tags:
+            - 'v*.*.*'
+jobs:
+    publish:
+        name: Publish for ${{ matrix.os}}
+        runs-on: ${{ matrix.os }} # ubuntu-latest #
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      artifact_name: GUIConverter
+                      asset_name: GUIConverter-ubuntu-latest
+                    - os: windows-latest
+                      artifact_name: GUIConverter.exe
+                      asset_name: GuiConverter-windows-latest.exe
+                    - os: macos-latest
+                      artifact_name: GUIConverter
+                      asset_name: GUIConverter-macos-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2 ## check out of the current repo. Needed. @v2 is the ref of the github checkout action (not repo)
+            
+            - name: Setup Environment
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.10'
+            - name: Install pyinstaller
+              run: pip install pyinstaller
+              
+            - name: Build
+              run: pyinstaller -n ${{ matrix.asset_name }} --onefile DigiclearJSONConverter/gui/GUIConverter.py
+            
+            - name: Release
+              uses: softprops/action-gh-release@v1 # https://github.com/softprops/action-gh-release
+              with:
+                files: |
+                    dist/${{ matrix.asset_name }}
