@@ -5,16 +5,16 @@
 Installation instructions
 ===========================
 
-For most users, the converter can be used by simply running a standalone executable file requiring no installation. 
-Alternatively you can install the python module. This gives you access to the converter but also more options to batch process many files, and fine tune some details. 
-Finally, if you wish t contribute, feel free to do so and share it !
+The best way to run this converter is to have a running python installation. This gives you access to the converter but also more options to batch process many files, and fine tune some details. 
+For other users, the converter can be used by simply running a standalone executable file requiring no installation, albeit with greater support complexity. 
+Finally, if you wish to contribute, feel free to do so and share it !
 
 
 Standalone Usage
 -----------------
 
-For Windows and Linuw users, you can download the standalone executable file here: <Figure out where to put it>
-MacOS users, I need a good soul to do some compilation work. Alternatively, you can install the python module and run it through python (see below). 
+Compiled, standalone executable files are available in the `releases <https://github.com/pyMatJ/DigiclearJSONConverter/releases>`_ section. 
+Please know that they are automatically compiled on github VMs, which does not give a full control over the generated executable. It might only run smoothly on up-to-date operating systems. The most reliable way to run this module remains to use a python installation. 
 
 Running the standalone version will open the GUI. See :ref:`GUIUsage` for a quick use guide. 
 

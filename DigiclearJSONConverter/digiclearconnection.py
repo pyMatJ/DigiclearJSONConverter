@@ -1,3 +1,8 @@
+# This file is part of the DigiclearJSONConverter module
+#
+# Copyright (c) Mathieu Jeannin, 2021, 2022
+
+
 """
 Handles the connection to Digiclear server and sets the correct urls to access
 the API (depending on whether it is digiclear (default) or remoteclear (for tests).

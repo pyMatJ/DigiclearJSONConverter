@@ -1,8 +1,9 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jun 21 08:19:57 2022
+# This file is part of the DigiclearJSONConverter module
+#
+# Copyright (c) Mathieu Jeannin, 2021, 2022
 
-@author: mathieu
+"""
+GUI application for the JSON conversion
 """
 
 from PyQt5 import QtCore, QtGui, QtWidgets

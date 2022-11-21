@@ -1,3 +1,8 @@
+# This file is part of the DigiclearJSONConverter module
+#
+# Copyright (c) Mathieu Jeannin, 2021, 2022
+
+
 """
 Get all the information from the json file + API calls to fill some blanks
 """

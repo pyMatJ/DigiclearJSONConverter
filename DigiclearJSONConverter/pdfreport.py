@@ -1,3 +1,8 @@
+# This file is part of the DigiclearJSONConverter module
+#
+# Copyright (c) Mathieu Jeannin, 2021, 2022
+
+
 """
 Generate a pdf report from a dictionnary
 """
