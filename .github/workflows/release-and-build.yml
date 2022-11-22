@@ -26,12 +26,21 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v2 ## check out of the current repo. Needed. @v2 is the ref of the github checkout action (not repo)
             
-            - name: Setup Environment
+            - name: Install python
               uses: actions/setup-python@v4
               with:
                 python-version: '3.10'
-            - name: Install pyinstaller
-              run: pip install pyinstaller
+            
+            - name: Setup environment
+              run: |
+                pip install pyinstaller
+                pip install -r requirements.txt
+                
+            - name: Linux specific install
+              if: ${{ matrix.os == 'ubuntu-latest' }}
+              run: |
+                sudo apt-get update -y -qq
+                sudo apt-get install -y -qq python3-pyqt5 pyqt5-dev-tools qttools5-dev-tools mesa-utils libgl1-mesa-glx
 
             - name: Install package
               run: pip install .
