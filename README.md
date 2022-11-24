@@ -3,7 +3,7 @@ Digiclear JSON converter
 
 Documentation
 -------------
-A full documentation is available at [insert readthedocs url later](https://DigiclearJSONConverter.readthedocs.io/en/latest/). This readme aims at giving you a jumpstart. 
+A full documentation is available [here](https://odin-doc.c2n.u-psud.fr/doc/DigiclearJSONConverter) (accesible only from C2N internal network). This readme aims at giving you a jumpstart.
 
 Installation
 -------------
@@ -26,7 +26,7 @@ that will start the graphical user interface of the program.
 Stand alone executable
 -----------------------
 
-If you do not care about scripting, and just want a graphical interface tool to quickly convert JSON files, stand alone executables should be available for download in the [releases](https://github.com/pyMatJ/DigiclearJSONConverter/releases) section[^1]. Just download the executable that matches your OS (Windows, Linux or Mac) and report to the section [Using the graphical user interface (GUI)](#Using-the-graphical-user-interface-(GUI))
+If you do not care about scripting, and just want a graphical interface tool to quickly convert JSON files, stand alone executables should be available for download in the [releases](https://github.com/pyMatJ/DigiclearJSONConverter/releases) section[^1]. Just download the executable that matches your OS (Windows, Linux or Mac) and report to the section [Using the graphical user interface (GUI)](#Using-the-graphical-user-interface-(GUI)). Note that this feature is experimental, if it does not work please use the python version.
 
 Converting JSON files
 ---------------------

@@ -117,6 +117,9 @@ We then open a connection to digiclear ::
 	if not test:
 		print('\n login failed \n')
 
+.. note::
+	:code:`remoteclear` and :code:`remoteclear-lan` are test servers. If you wish to contribute, you should first try your code using these instead of running tests directly on digiclear. :code:`remoteclear` is only accessible from outside the C2N internal network, while :code:`remoteclear-lan`  is only accessible from the C2N internal network. Certificate checks are disabled for remoteclear-lan.
+
 The conversion is then peformed in the loop for each file::
 
 	outfilename = jsonfilepath.name.replace('json','pdf') ## output file name
