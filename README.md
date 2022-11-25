@@ -3,7 +3,7 @@ Digiclear JSON converter
 
 Documentation
 -------------
-A full documentation is available [here](https://odin-doc.c2n.u-psud.fr/doc/DigiclearJSONConverter) (accesible only from C2N internal network). This readme aims at giving you a jumpstart.
+A full documentation is available [here](http://odin-doc.c2n.u-psud.fr/DigiclearJSONConverter/doc/index.html#) (accesible only from C2N internal network). This readme aims at giving you a jumpstart.
 
 Installation
 -------------
