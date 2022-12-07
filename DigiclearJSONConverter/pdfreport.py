@@ -160,11 +160,11 @@ class PDFReport():
                 text += unescape(e.text_content())+'<br/> <br/>'
             elif e.tag == 'ul':
                 for le in e.iter('li'):
-                    text += f'* {unescape(e.text_content())} <br/> '
+                    text += f'* {unescape(le.text_content())} <br/> '
                 text += '<br/> '
             elif e.tag == 'ol':
                 for ii, le in enumerate(e.iter('li')):
-                    text += f'{ii+1}. {unescape(e.text_content())} <br/>'
+                    text += f'{ii+1}. {unescape(le.text_content())} <br/>'
                 text += '<br/> '
         
         return text
