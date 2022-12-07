@@ -12,6 +12,7 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.colors import Color
 from lxml.html import document_fromstring
+from html import unescape
 
 class PDFReport():
     
@@ -97,7 +98,8 @@ class PDFReport():
             ## paragraph style
             psDescriptionText = ParagraphStyle('Hed2', fontSize=12, alignment=TA_LEFT, borderWidth=3)
             ## paragraph
-            pgDescription = Paragraph(self.report_dict['Description'], psDescriptionText)
+            DescriptionText = self.HTMLCommentFormatting(self.report_dict['Description'])
+            pgDescription = Paragraph(DescriptionText, psDescriptionText)
             
             ## append to flowable list
             self.flowables.append(pgDescription)
@@ -146,11 +148,25 @@ class PDFReport():
             for newline characters
 
         """
+        text = ''
         doc = document_fromstring(s)
-        for br in doc.xpath("*//br"):
-            ## element.tail returns the text between tags https://lxml.de/tutorial.html ctrl+f tail
-            br.tail = "\n" + br.tail if br.tail else "\n"
-        text = doc.text_content()
+        # for e in doc.xpath("*/p"): ## scans for all paragraphs
+        #     text += unescape(e.text_content()) + '<br/> <br/>'
+        
+        for e in doc.iter():
+            # print(e.tag)
+            # print(html.unescape(e.text_content())+'\n')
+            if e.tag =='p':
+                text += unescape(e.text_content())+'<br/> <br/>'
+            elif e.tag == 'ul':
+                for le in e.iter('li'):
+                    text += f'* {unescape(e.text_content())} <br/> '
+                text += '<br/> '
+            elif e.tag == 'ol':
+                for ii, le in enumerate(e.iter('li')):
+                    text += f'{ii+1}. {unescape(e.text_content())} <br/>'
+                text += '<br/> '
+        
         return text
         
     def MakeOperationFlowables(self):
